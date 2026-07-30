@@ -575,78 +575,7 @@
 
 
   <!-- WHATSAPP SCRIPT -->
-  <script>
-
-    /*
-      ضع رقم WhatsApp الخاص بك هنا.
-
-      مثال المغرب:
-      212612345678
-
-      مهم:
-      لا تضع علامة +
-      ولا تضع 0 في بداية الرقم.
-    */
-
-    const WHATSAPP_NUMBER = "212708842438"; 
-    
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyH0X_qOf3dPtMRi_k4t6MI8tKyG_AvpMXQKLSMflvjCg80pgXdZhy_2s6e53DVi8fc_A/exec"
-
-    document
-      .getElementById("orderForm")
-      .addEventListener("submit", function(event) {
-
-        event.preventDefault();
-
-        const name =
-          document.getElementById("name").value.trim();
-
-        const phone =
-          document.getElementById("phone").value.trim();
-
-        const city =
-          document.getElementById("city").value.trim();
-
-        const address =
-          document.getElementById("address").value.trim();
-
-
-        if (!name || !phone || !city || !address) {
-
-          alert("المرجو ملء جميع المعلومات.");
-
-          return;
-        }
-
-
-        const message =
-`🛒 طلب جديد - MassUp
-
-👤 الاسم: ${name}
-
-📞 الهاتف: ${phone}
-
-📍 المدينة: ${city}
-
-🏠 العنوان:
-${address}
-
-شكراً لكم.`;
-
-
-        const whatsappURL =
-          "https://wa.me/" +
-          WHATSAPP_NUMBER +
-          "?text=" +
-          encodeURIComponent(message);
-
-
-        window.open(
-          whatsappURL,
-          "_blank"
-        );
-
-      });
+  
 <script>
   
 const WHATSAPP_NUMBER = "212708842438";
