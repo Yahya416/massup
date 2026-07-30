@@ -1,0 +1,654 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MassUp | مكمل غذائي</title>
+  <meta name="description" content="MassUp - مكمل غذائي ضمن نظام غذائي متوازن. اطلب الآن وسنتواصل معك لتأكيد الطلب.">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Tahoma, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #080808;
+      color: #fff;
+      line-height: 1.7;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: auto;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 80% 30%, rgba(126,190,0,.18), transparent 35%),
+        linear-gradient(135deg, #080808, #151515);
+      padding: 60px 0;
+    }
+
+    .hero-content {
+      text-align: center;
+      width: 100%;
+    }
+
+    .logo {
+      font-size: 52px;
+      font-weight: 900;
+      font-style: italic;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+
+    .logo span {
+      color: #f5b400;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #7ab900;
+      color: #fff;
+      padding: 6px 18px;
+      border-radius: 30px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(35px, 6vw, 65px);
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    h1 span {
+      color: #f5b400;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto 30px;
+      color: #ddd;
+      font-size: 18px;
+    }
+
+    .cta {
+      display: inline-block;
+      background: linear-gradient(135deg, #8ac400, #4d8100);
+      color: white;
+      padding: 14px 45px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: bold;
+      border: 1px solid #a4e329;
+      transition: .2s;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(126,190,0,.25);
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 70px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 34px;
+      margin-bottom: 40px;
+    }
+
+    .section-title span {
+      color: #f5b400;
+    }
+
+    /* BENEFITS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: #121212;
+      border: 1px solid #3a3a3a;
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      transition: .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: #7ab900;
+    }
+
+    .icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      color: #f5b400;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #bbb;
+      font-size: 14px;
+    }
+
+    /* INGREDIENTS */
+    .ingredients {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .ingredient {
+      background: #101010;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      transition: .2s;
+    }
+
+    .ingredient:hover {
+      border-color: #f5b400;
+      transform: translateY(-3px);
+    }
+
+    .ingredient strong {
+      display: block;
+      color: #f5b400;
+      margin-bottom: 7px;
+    }
+
+    /* USAGE */
+    .usage {
+      background: #101010;
+      border: 1px solid #333;
+      border-radius: 18px;
+      padding: 30px;
+      max-width: 850px;
+      margin: auto;
+    }
+
+    .usage li {
+      margin: 12px 0;
+      color: #ddd;
+    }
+
+    /* ORDER */
+    .order-section {
+      background:
+        radial-gradient(circle at center, rgba(126,190,0,.12), transparent 50%);
+    }
+
+    .order-box {
+      max-width: 650px;
+      margin: auto;
+      background: #111;
+      border: 1px solid #555;
+      border-radius: 20px;
+      padding: 35px;
+      box-shadow: 0 15px 50px rgba(0,0,0,.5);
+    }
+
+    .order-box h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #f5b400;
+    }
+
+    .order-box .subtitle {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 7px;
+      color: #eee;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 14px;
+      background: #202020;
+      color: #fff;
+      border: 1px solid #444;
+      border-radius: 9px;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #8ac400;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #8ac400, #4d8100);
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: .2s;
+    }
+
+    .submit-btn:hover {
+      opacity: .9;
+      transform: translateY(-2px);
+    }
+
+    .note {
+      text-align: center;
+      color: #888;
+      font-size: 12px;
+      margin-top: 15px;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #050505;
+      color: #777;
+      font-size: 13px;
+    }
+
+    /* MOBILE */
+    @media (max-width: 800px) {
+      .cards,
+      .ingredients {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 500px) {
+      section {
+        padding: 50px 0;
+      }
+
+      .cards,
+      .ingredients {
+        grid-template-columns: 1fr;
+      }
+
+      .order-box {
+        padding: 22px;
+      }
+
+      .logo {
+        font-size: 42px;
+      }
+
+      .hero {
+        min-height: 580px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container hero-content">
+
+      <div class="logo">
+        MASS<span>UP</span>
+      </div>
+
+      <div class="badge">
+        مكمل غذائي
+      </div>
+
+      <h1>
+        ادعم زيادة الوزن<br>
+        <span>بطريقة صحية ومتوازنة</span>
+      </h1>
+
+      <p>
+        تركيبة غذائية تحتوي على مجموعة من العناصر الغذائية
+        للمساعدة في دعم الطاقة والتغذية والكتلة العضلية.
+      </p>
+
+      <a href="#order" class="cta">
+        اطلب الآن
+      </a>
+
+    </div>
+  </header>
+
+
+  <!-- BENEFITS -->
+  <section>
+    <div class="container">
+
+      <h2 class="section-title">
+        لماذا <span>MassUp؟</span>
+      </h2>
+
+      <div class="cards">
+
+        <div class="card">
+          <div class="icon">💪</div>
+          <h3>دعم الكتلة العضلية</h3>
+          <p>
+            يساهم في دعم بناء الكتلة العضلية ضمن نظام غذائي متوازن.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">⚡</div>
+          <h3>دعم الطاقة</h3>
+          <p>
+            مجموعة من العناصر الغذائية لدعم النشاط والطاقة اليومية.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">🌿</div>
+          <h3>مكونات متنوعة</h3>
+          <p>
+            تركيبة تجمع بين الفيتامينات والمعادن ومكونات غذائية مختلفة.
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="icon">✓</div>
+          <h3>سهل الاستخدام</h3>
+          <p>
+            كبسولات سهلة الاستخدام ضمن روتينك الغذائي اليومي.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- INGREDIENTS -->
+  <section>
+    <div class="container">
+
+      <h2 class="section-title">
+        <span>المكونات</span>
+      </h2>
+
+      <div class="ingredients">
+
+        <div class="ingredient">
+          <strong>أوميغا 3</strong>
+          دعم صحة القلب والدماغ.
+        </div>
+
+        <div class="ingredient">
+          <strong>ماكا</strong>
+          مكون نباتي مرتبط بالطاقة والقدرة البدنية.
+        </div>
+
+        <div class="ingredient">
+          <strong>حب العزيز</strong>
+          مصدر غذائي غني بالعناصر الغذائية.
+        </div>
+
+        <div class="ingredient">
+          <strong>المعادن الأساسية</strong>
+          مثل المغنيسيوم والكالسيوم والبوتاسيوم.
+        </div>
+
+        <div class="ingredient">
+          <strong>إيكيبي</strong>
+          مكون نباتي ضمن تركيبة المنتج.
+        </div>
+
+        <div class="ingredient">
+          <strong>فيتامين C</strong>
+          يساهم في دعم وظائف الجهاز المناعي.
+        </div>
+
+        <div class="ingredient">
+          <strong>الزنك</strong>
+          يساهم في دعم وظائف المناعة وصحة الجسم.
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- USAGE -->
+  <section>
+    <div class="container">
+
+      <h2 class="section-title">
+        طريقة <span>الاستخدام</span>
+      </h2>
+
+      <div class="usage">
+
+        <ul>
+          <li>تناول كبسولة واحدة بعد وجبة الإفطار.</li>
+          <li>تناول كبسولة واحدة بعد الغداء أو العشاء.</li>
+          <li>يفضل تناوله بعد الوجبة.</li>
+          <li>العبوة تحتوي على 30 كبسولة.</li>
+        </ul>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ORDER FORM -->
+  <section class="order-section" id="order">
+
+    <div class="container">
+
+      <div class="order-box">
+
+        <h2>
+          اطلب MassUp الآن
+        </h2>
+
+        <p class="subtitle">
+          املأ معلوماتك وسنتواصل معك لتأكيد الطلب.
+        </p>
+
+        <form id="orderForm">
+
+          <div class="form-group">
+            <label for="name">
+              الاسم الكامل
+            </label>
+
+            <input
+              type="text"
+              id="name"
+              placeholder="أدخل اسمك الكامل"
+              required
+            >
+          </div>
+
+
+          <div class="form-group">
+            <label for="phone">
+              رقم الهاتف
+            </label>
+
+            <input
+              type="tel"
+              id="phone"
+              placeholder="06XXXXXXXX"
+              inputmode="tel"
+              required
+            >
+          </div>
+
+
+          <div class="form-group">
+            <label for="city">
+              المدينة
+            </label>
+
+            <input
+              type="text"
+              id="city"
+              placeholder="مثال: الدار البيضاء"
+              required
+            >
+          </div>
+
+
+          <div class="form-group">
+            <label for="address">
+              العنوان
+            </label>
+
+            <textarea
+              id="address"
+              rows="3"
+              placeholder="أدخل عنوان التوصيل بالتفصيل"
+              required
+            ></textarea>
+          </div>
+
+
+          <button
+            type="submit"
+            class="submit-btn"
+          >
+            اطلب الآن ✓
+          </button>
+
+          <p class="note">
+            سيتم فتح WhatsApp لإرسال معلومات الطلب وتأكيده.
+          </p>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 MassUp — جميع الحقوق محفوظة
+  </footer>
+
+
+  <!-- WHATSAPP SCRIPT -->
+  <script>
+
+    /*
+      ضع رقم WhatsApp الخاص بك هنا.
+
+      مثال المغرب:
+      212612345678
+
+      مهم:
+      لا تضع علامة +
+      ولا تضع 0 في بداية الرقم.
+    */
+
+    const WHATSAPP_NUMBER = "212708842438";
+
+
+    document
+      .getElementById("orderForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const name =
+          document.getElementById("name").value.trim();
+
+        const phone =
+          document.getElementById("phone").value.trim();
+
+        const city =
+          document.getElementById("city").value.trim();
+
+        const address =
+          document.getElementById("address").value.trim();
+
+
+        if (!name || !phone || !city || !address) {
+
+          alert("المرجو ملء جميع المعلومات.");
+
+          return;
+        }
+
+
+        const message =
+`🛒 طلب جديد - MassUp
+
+👤 الاسم: ${name}
+
+📞 الهاتف: ${phone}
+
+📍 المدينة: ${city}
+
+🏠 العنوان:
+${address}
+
+شكراً لكم.`;
+
+
+        const whatsappURL =
+          "https://wa.me/" +
+          WHATSAPP_NUMBER +
+          "?text=" +
+          encodeURIComponent(message);
+
+
+        window.open(
+          whatsappURL,
+          "_blank"
+        );
+
+      });
+
+  </script>
+
+</body>
+</html>
+```
