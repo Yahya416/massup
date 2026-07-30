@@ -1,0 +1,701 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MassUp | إدارة الطلبات</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Tahoma, sans-serif;
+    }
+
+    body {
+      background: #080808;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #111;
+      border-bottom: 1px solid #333;
+      padding: 20px;
+    }
+
+    .header-content {
+      width: min(1200px, 94%);
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: 900;
+      font-style: italic;
+    }
+
+    .logo span {
+      color: #f5b400;
+    }
+
+    .refresh-btn {
+      border: none;
+      background: #7ab900;
+      color: white;
+      padding: 11px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .refresh-btn:hover {
+      opacity: .9;
+    }
+
+    .container {
+      width: min(1200px, 94%);
+      margin: 30px auto;
+    }
+
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+
+    .count {
+      background: #151515;
+      border: 1px solid #333;
+      padding: 10px 18px;
+      border-radius: 10px;
+      color: #f5b400;
+      font-weight: bold;
+    }
+
+    .message {
+      text-align: center;
+      padding: 25px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 12px;
+      color: #aaa;
+      margin-bottom: 20px;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1050px;
+    }
+
+    th {
+      background: #191919;
+      color: #f5b400;
+      padding: 15px 10px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 13px 10px;
+      border-top: 1px solid #2b2b2b;
+      color: #ddd;
+      vertical-align: middle;
+    }
+
+    tr:hover td {
+      background: #151515;
+    }
+
+    .status {
+      padding: 7px 10px;
+      border-radius: 7px;
+      border: 1px solid #444;
+      background: #202020;
+      color: white;
+      cursor: pointer;
+    }
+
+    .delete-btn {
+      border: none;
+      background: #a00000;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 7px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .delete-btn:hover {
+      background: #c00000;
+    }
+
+    .phone {
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 50px;
+      color: #888;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #f5b400;
+      font-size: 18px;
+    }
+
+    @media (max-width: 600px) {
+      .header-content {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+
+      .refresh-btn {
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-content">
+
+    <div class="logo">
+      MASS<span>UP</span>
+    </div>
+
+    <button
+      class="refresh-btn"
+      onclick="loadOrders()"
+    >
+      🔄 تحديث الطلبات
+    </button>
+
+  </div>
+</header>
+
+
+<main class="container">
+
+  <div class="top">
+
+    <h1>
+      📦 إدارة الطلبات
+    </h1>
+
+    <div class="count" id="orderCount">
+      عدد الطلبات: 0
+    </div>
+
+  </div>
+
+
+  <div id="message" class="message">
+    جاري تحميل الطلبات...
+  </div>
+
+
+  <div class="table-wrapper">
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>التاريخ</th>
+          <th>الاسم</th>
+          <th>الهاتف</th>
+          <th>المدينة</th>
+          <th>العنوان</th>
+          <th>الكمية</th>
+          <th>الحالة</th>
+          <th>حذف</th>
+        </tr>
+      </thead>
+
+      <tbody id="ordersTable">
+      </tbody>
+
+    </table>
+
+  </div>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   إعدادات Admin
+   ===================================================== */
+
+
+/*
+   حط هنا نفس كلمة السر الموجودة
+   في Google Apps Script.
+
+   مثال:
+
+   const ADMIN_PASSWORD = "MassUp_Admin_2026";
+
+*/
+
+const ADMIN_PASSWORD = "dimawidadgjw9";
+
+
+/*
+   نفس رابط Google Apps Script
+   الموجود في index.html
+*/
+
+const GOOGLE_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbyH0X_qOf3dPtMRi_k4t6MI8tKyG_AvpMXQKLSMflvjCg80pgXdZhy_2s6e53DVi8fc_A/exec";
+
+
+/* =====================================================
+   تحميل الطلبات
+   ===================================================== */
+
+async function loadOrders() {
+
+  const message =
+    document.getElementById("message");
+
+  const table =
+    document.getElementById("ordersTable");
+
+  message.style.display = "block";
+
+  message.textContent =
+    "جاري تحميل الطلبات...";
+
+  table.innerHTML = "";
+
+
+  try {
+
+    const url =
+      GOOGLE_SCRIPT_URL +
+      "?password=" +
+      encodeURIComponent(ADMIN_PASSWORD);
+
+
+    const response =
+      await fetch(url);
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.error || "Unauthorized"
+      );
+
+    }
+
+
+    const orders =
+      data.orders || [];
+
+
+    document.getElementById("orderCount")
+      .textContent =
+      "عدد الطلبات: " + orders.length;
+
+
+    if (orders.length === 0) {
+
+      message.textContent =
+        "لا توجد طلبات حالياً.";
+
+      return;
+
+    }
+
+
+    message.style.display = "none";
+
+
+    orders.reverse().forEach(order => {
+
+      addOrderRow(order);
+
+    });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    message.style.display = "block";
+
+    message.textContent =
+      "❌ تعذر تحميل الطلبات. تأكد من كلمة السر وGoogle Apps Script.";
+
+  }
+
+}
+
+
+/* =====================================================
+   إنشاء صف الطلب
+   ===================================================== */
+
+function addOrderRow(order) {
+
+  const table =
+    document.getElementById("ordersTable");
+
+
+  const row =
+    document.createElement("tr");
+
+
+  const id =
+    order.ID || "";
+
+
+  const date =
+    formatDate(order.Date);
+
+
+  const name =
+    order.Name || "";
+
+
+  const phone =
+    order.Phone || "";
+
+
+  const city =
+    order.City || "";
+
+
+  const address =
+    order.Address || "";
+
+
+  const quantity =
+    order.Quantity || "1";
+
+
+  const status =
+    order.Status || "جديد";
+
+
+  row.innerHTML = `
+
+    <td>
+      ${escapeHTML(
+        String(id).substring(0, 8)
+      )}
+    </td>
+
+    <td>
+      ${escapeHTML(date)}
+    </td>
+
+    <td>
+      <strong>
+        ${escapeHTML(name)}
+      </strong>
+    </td>
+
+    <td>
+      <span class="phone">
+        ${escapeHTML(phone)}
+      </span>
+    </td>
+
+    <td>
+      ${escapeHTML(city)}
+    </td>
+
+    <td>
+      ${escapeHTML(address)}
+    </td>
+
+    <td>
+      ${escapeHTML(String(quantity))}
+    </td>
+
+    <td>
+
+      <select
+        class="status"
+        onchange="changeStatus('${escapeJS(id)}', this.value)"
+      >
+
+        <option value="جديد"
+          ${status === "جديد" ? "selected" : ""}>
+          جديد
+        </option>
+
+        <option value="تم التأكيد"
+          ${status === "تم التأكيد" ? "selected" : ""}>
+          تم التأكيد
+        </option>
+
+        <option value="تم الشحن"
+          ${status === "تم الشحن" ? "selected" : ""}>
+          تم الشحن
+        </option>
+
+        <option value="مكتمل"
+          ${status === "مكتمل" ? "selected" : ""}>
+          مكتمل
+        </option>
+
+        <option value="ملغى"
+          ${status === "ملغى" ? "selected" : ""}>
+          ملغى
+        </option>
+
+      </select>
+
+    </td>
+
+    <td>
+
+      <button
+        class="delete-btn"
+        onclick="deleteOrder('${escapeJS(id)}')"
+      >
+        حذف
+      </button>
+
+    </td>
+
+  `;
+
+
+  table.appendChild(row);
+
+}
+
+
+/* =====================================================
+   تغيير حالة الطلب
+   ===================================================== */
+
+async function changeStatus(id, status) {
+
+  try {
+
+    const response =
+      await fetch(
+        GOOGLE_SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body: JSON.stringify({
+
+            action: "updateStatus",
+
+            id: id,
+
+            status: status,
+
+            password: ADMIN_PASSWORD
+
+          })
+        }
+      );
+
+
+    /*
+      إعادة تحميل الطلبات
+      للتأكد أن التغيير تسجل
+    */
+
+    setTimeout(
+      loadOrders,
+      500
+    );
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "وقع مشكل أثناء تحديث الحالة."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   حذف الطلب
+   ===================================================== */
+
+async function deleteOrder(id) {
+
+  const confirmed =
+    confirm(
+      "واش متأكد بغيتي تحذف هاد الطلب؟"
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  try {
+
+    await fetch(
+      GOOGLE_SCRIPT_URL,
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify({
+
+          action: "deleteOrder",
+
+          id: id,
+
+          password: ADMIN_PASSWORD
+
+        })
+      }
+    );
+
+
+    alert(
+      "تم حذف الطلب."
+    );
+
+
+    loadOrders();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      "وقع مشكل أثناء حذف الطلب."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   تنسيق التاريخ
+   ===================================================== */
+
+function formatDate(value) {
+
+  if (!value) {
+    return "";
+  }
+
+
+  const date =
+    new Date(value);
+
+
+  if (isNaN(date.getTime())) {
+    return String(value);
+  }
+
+
+  return date.toLocaleString(
+    "ar-MA",
+    {
+      dateStyle: "short",
+      timeStyle: "short"
+    }
+  );
+
+}
+
+
+/* =====================================================
+   حماية عرض النصوص
+   ===================================================== */
+
+function escapeHTML(value) {
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeJS(value) {
+
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'");
+
+}
+
+
+/* =====================================================
+   تشغيل الصفحة
+   ===================================================== */
+
+loadOrders();
+
+</script>
+
+</body>
+</html>
+```
